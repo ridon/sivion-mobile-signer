@@ -44,10 +44,8 @@ public class Pkcs7SignerTest {
   private static String alias = "omama";
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+      Context appContext = InstrumentationRegistry.getContext();
 
-        assertEquals("app.sivionmobile.ridon.id.lib.test", appContext.getPackageName());
 
       Date startDate = new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000);
       Date endDate = new Date(System.currentTimeMillis() + 1 * 365 * 24 * 60 * 60 * 1000);
