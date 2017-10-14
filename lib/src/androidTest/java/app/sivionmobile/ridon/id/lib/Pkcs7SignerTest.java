@@ -13,7 +13,10 @@ import org.spongycastle.jce.X509Principal;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.x509.X509V3CertificateGenerator;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
@@ -73,6 +76,13 @@ public class Pkcs7SignerTest {
       signer.addSigner(alias);
       byte[] signed = signer.sign(test.getBytes("UTF-8"));
       assertNotEquals(signed.length, 0);
+
+      InputStream stream = new ByteArrayInputStream(test.getBytes("UTF-8"));
+      P7InputStream p7InputStream = new P7InputStream(stream);
+      byte[] signedStream = signer.sign(p7InputStream);
+      assertNotEquals(signedStream.length, 0);
+
+
       System.err.println(Arrays.toString(signed));
 
     }

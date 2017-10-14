@@ -71,6 +71,12 @@ public class P7Signer {
 
   }
 
+  public byte[] sign(P7InputStream data) throws IOException, CMSException {
+    CMSSignedData signedData = generator.generate(data, false);
+    return signedData.getEncoded();
+
+  }
+
   public P7Signer(final KeyStore store) {
     this.store = store;
   }
