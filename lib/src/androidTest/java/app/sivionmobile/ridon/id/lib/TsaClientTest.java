@@ -23,7 +23,7 @@ public class TsaClientTest {
 
   @Test
   public void useAppContext() throws Exception {
-    URL url = new URL("https://tsa.rootca.or.id");
+    URL url = new URL("https://freetsa.org/tsr");
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
     TsaClient client = new TsaClient(url, null, null, digest);
 

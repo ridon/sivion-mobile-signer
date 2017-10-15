@@ -8,11 +8,13 @@ import com.tom_roush.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterf
 import com.tom_roush.pdfbox.util.PDFBoxResourceLoader;
 
 import org.spongycastle.cms.CMSException;
+import org.spongycastle.tsp.TSPException;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 
@@ -53,6 +55,14 @@ public class PdfSigner implements SignatureInterface {
     } catch (CMSException e) {
       e.printStackTrace();
       throw new IOException(e.getMessage());
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+      throw new IOException(e.getMessage());
+
+    } catch (TSPException e) {
+      e.printStackTrace();
+      throw new IOException(e.getMessage());
+
     }
   }
 }

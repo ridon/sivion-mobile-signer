@@ -17,9 +17,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 
+import java.net.URL;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.MessageDigest;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -69,7 +71,9 @@ public class PdfSignerTest {
     KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
     keyStore.load(null);
 
-    P7Signer signer = new P7Signer(keyStore);
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    TsaClient c = new TsaClient(new URL("https://freetsa.org/tsr"), null, null, digest);
+    P7Signer signer = new P7Signer(keyStore, c);
     signer.addSigner(alias);
 
     PdfSigner pdfSigner = new PdfSigner(appContext, signer, temp);
