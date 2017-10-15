@@ -28,6 +28,10 @@ import java.util.ListIterator;
 public class P7Verifier {
   final CMSSignedData signedData;
 
+  public P7Verifier(final byte[] signature, final byte[] data) throws CMSException {
+    signedData = new CMSSignedData(new CMSProcessableByteArray(data), new ByteArrayInputStream(signature));
+  }
+
   public P7Verifier(final byte[] signature, final InputStream data) throws CMSException {
     signedData = new CMSSignedData(new P7InputStream(data), new ByteArrayInputStream(signature));
   }
