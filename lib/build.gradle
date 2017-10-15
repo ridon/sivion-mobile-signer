@@ -39,4 +39,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.madgag.spongycastle:pkix:1.54.0.0'
     compile 'com.tom_roush:pdfbox-android:1.8.9.1'
+    compile 'junit:junit:4.12'
 }
