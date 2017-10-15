@@ -33,6 +33,7 @@ import org.spongycastle.util.Store;
 
 public class P7Signer {
   KeyStore store;
+  private boolean detached = false;
   CMSSignedDataGenerator generator = new CMSSignedDataGenerator();
   private static final String ALGO = "SHA256withRSA";
   static {
@@ -64,21 +65,29 @@ public class P7Signer {
 
   }
 
+  private CMSSignedData signData(CMSTypedData data) throws CMSException {
+    CMSSignedData ret = generator.generate(data, !detached);
+    return ret;
+  }
+
   public byte[] sign(final byte[] data) throws IOException, CMSException {
     CMSTypedData cmsData = new CMSProcessableByteArray(data);
-    CMSSignedData signedData = generator.generate(cmsData, true);
+    CMSSignedData signedData = signData(cmsData);
     return signedData.getEncoded();
 
   }
 
   public byte[] sign(P7InputStream data) throws IOException, CMSException {
-    CMSSignedData signedData = generator.generate(data, false);
+    CMSSignedData signedData = signData(data);
     return signedData.getEncoded();
-
   }
 
   public P7Signer(final KeyStore store) {
     this.store = store;
   }
+  public P7Signer(final KeyStore store, boolean detached) {
+    this.detached = detached;
+  }
+
 
 }
