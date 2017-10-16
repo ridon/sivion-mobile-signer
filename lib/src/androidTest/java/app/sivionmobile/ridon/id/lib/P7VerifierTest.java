@@ -11,9 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.spongycastle.jce.X509Principal;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
+import org.spongycastle.util.encoders.Hex;
 import org.spongycastle.x509.X509V3CertificateGenerator;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -98,6 +100,7 @@ public class P7VerifierTest {
     InputStream dataStream = new ByteArrayInputStream(test.getBytes("UTF-8"));
     P7Verifier verifier = new P7Verifier(signedData, dataStream);
     List<SignatureVerification> res = verifier.verify();
+    assertNull(verifier.signedData);
     Iterator it = res.iterator();
     boolean gotSignatures = false;
     while (it.hasNext()) {
@@ -110,6 +113,47 @@ public class P7VerifierTest {
     assertEquals(gotSignatures, true);
 
   }
+
+  @Test
+  public void DetachedTestWithTsa() throws Exception {
+    Context appContext = InstrumentationRegistry.getContext();
+
+
+    KeyStore keyStore = getKeyStore(appContext);
+    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    TsaClient c = new TsaClient(new URL("https://freetsa.org/tsr"), null, null, digest);
+    P7Signer signer = new P7Signer(keyStore, c);
+
+    String test = "olala";
+    signer.addSigner(alias);
+    byte[] signed = signer.sign(test.getBytes("UTF-8"));
+    assertNotEquals(signed.length, 0);
+
+    InputStream stream = new ByteArrayInputStream(test.getBytes("UTF-8"));
+    P7InputStream p7InputStream = new P7InputStream(stream);
+    byte[] signedData = signer.sign(p7InputStream);
+    assertNotEquals(signedData.length, 0);
+
+    InputStream dataStream = new ByteArrayInputStream(test.getBytes("UTF-8"));
+    P7Verifier verifier = new P7Verifier(signedData, dataStream);
+    List<SignatureVerification> res = verifier.verify();
+    assertNotNull(verifier.signedData);
+    Iterator it = res.iterator();
+    boolean gotSignatures = false;
+    while (it.hasNext()) {
+      SignatureVerification v = (SignatureVerification) it.next();
+      assertEquals(v.isVerified(), true);
+      assertEquals(v.isTrusted(), false);
+      gotSignatures = true;
+    }
+    assertEquals(res.size(), 1);
+    assertEquals(gotSignatures, true);
+
+    FileOutputStream fos = new FileOutputStream("/data/data/app.sivionmobile.ridon.id.lib.test/cache/a");
+    fos.write(signedData);
+    fos.close();
+  }
+
 
   @Test
   public void AttachedTest() throws Exception {

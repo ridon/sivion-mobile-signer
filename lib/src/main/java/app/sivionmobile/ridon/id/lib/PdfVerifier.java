@@ -17,6 +17,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class PdfVerifier {
     return list;
   }
 
-  PdfVerification verifyDetached(PDSignature sig) throws IOException, CMSException, CertificateException, OperatorCreationException {
+  PdfVerification verifyDetached(PDSignature sig) throws IOException, CMSException, CertificateException, OperatorCreationException  {
     COSDictionary sigDict = (COSDictionary) sig.getCOSObject();
     COSString contents = (COSString) sigDict.getDictionaryObject(COSName.CONTENTS);
 
