@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?android:attr/colorBackground"
     android:orientation="vertical"
     android:padding="20dp"
     android:paddingBottom="20dp"
@@ -15,10 +16,26 @@
     tools:context="app.sivionmobile.ridon.id.sivionmobilesigner.PdfActivity">
 
     <TextView
-        android:id="@+id/tvCertVerified"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="-10dp"
+
+        android:layout_marginVertical="-10dp"
+        android:background="@android:color/darker_gray"
+        android:padding="10dp"
+        android:paddingBottom="10dp"
+        android:text="Signing Certificate"
+        android:textAlignment="center"
+        android:textColor="@android:color/primary_text_dark_nodisable"
+        android:textStyle="bold"
+        tools:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="VERIFIED"
+
         tools:textColor="@android:color/holo_green_dark"/>
 
     <TextView
@@ -52,13 +69,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Serial"/>
+        android:text="Serial"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertSerial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-serial"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -70,13 +89,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Validity"/>
+        android:text="Validity"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertValidity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-validity"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -88,13 +109,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subject"/>
+        android:text="Subject"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertSubject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-subject"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -106,13 +129,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Issuer"/>
+        android:text="Issuer"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertIssuer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-issuer"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -124,13 +149,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Public Key"/>
+        android:text="Public Key"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertPublicKey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-public key"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -142,13 +169,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Algorithm"/>
+        android:text="Algorithm"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertAlgorithm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-algorithm"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
@@ -160,13 +189,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fingerprint"/>
+        android:text="Fingerprint"
+        android:textColor="@color/colorPrimaryDark"/>
 
     <TextView
         android:id="@+id/tvCertFingerprint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="-fingerprint"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"/>
 
     <View
