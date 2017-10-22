@@ -11,9 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.spongycastle.jce.X509Principal;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
+import org.spongycastle.util.encoders.Hex;
 import org.spongycastle.x509.X509V3CertificateGenerator;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -117,9 +119,6 @@ public class Pkcs7SignerTest {
     P7InputStream p7InputStream = new P7InputStream(stream);
     byte[] signedStream = signer.sign(p7InputStream);
     assertNotEquals(signedStream.length, 0);
-
-
-    System.err.println(Arrays.toString(signed));
 
   }
 }

@@ -132,6 +132,7 @@ public class P7Signer {
   }
 
   public P7Signer(final KeyStore store, boolean detached, TsaClient client) {
+    this.store = store;
     this.detached = detached;
     tsaClient = client;
   }
