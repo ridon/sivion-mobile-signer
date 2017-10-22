@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +54,7 @@ public class PdfVerifierTest {
     Calendar notAfter = Calendar.getInstance();
     notAfter.add(1, Calendar.YEAR);
     KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(appContext)
-        .setAlias("key1")
+        .setAlias(alias)
         .setSubject(
             new X500Principal(String.format("CN=%s, OU=%s", alias,
                 appContext.getPackageName())))
@@ -74,6 +75,7 @@ public class PdfVerifierTest {
   public void useAppContext() throws Exception {
 
     Context appContext = InstrumentationRegistry.getTargetContext();
+
     File temp = folder.newFile("omama.pdf");
     File tempOutput = folder.newFile("omama.signed.pdf");
     InputStream is = appContext.getResources().getAssets().open("omama.pdf");
@@ -88,17 +90,16 @@ public class PdfVerifierTest {
 
     MessageDigest digest = MessageDigest.getInstance("SHA-256");
     TsaClient c = new TsaClient(new URL("https://freetsa.org/tsr"), null, null, digest);
-    P7Signer signer = new P7Signer(keyStore, c);
+    P7Signer signer = new P7Signer(keyStore, null);
     signer.addSigner(alias);
 
     PdfSigner pdfSigner = new PdfSigner(appContext, signer, temp);
     pdfSigner.sign(tempOutput, alias, "Name", "Location", "Reason");
 
-    File signedFile = new File(tempOutput.getAbsolutePath());
-    assertEquals(signedFile.exists(), true);
+    InputStream signedFile = new FileInputStream(tempOutput.getAbsolutePath());
 
-    PdfVerifier verifier = new PdfVerifier(appContext, signedFile, "");
-    List<PdfVerification> res = verifier.verify();
+    PdfVerifier verifier = new PdfVerifier(appContext);
+    List<PdfVerification> res = verifier.verify(signedFile, "");
     assertEquals(res.size(), 1);
 
     Date now = new Date();
