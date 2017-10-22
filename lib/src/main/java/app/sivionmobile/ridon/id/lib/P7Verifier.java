@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import org.spongycastle.asn1.ASN1GeneralizedTime;
 import org.spongycastle.asn1.ASN1ObjectIdentifier;
+import org.spongycastle.asn1.ASN1Set;
 import org.spongycastle.asn1.ASN1UTCTime;
 import org.spongycastle.asn1.DERUTCTime;
 import org.spongycastle.asn1.cms.Attribute;
@@ -79,19 +80,26 @@ public class P7Verifier {
       Attribute signingTimeAttr = signedTable.get(new ASN1ObjectIdentifier("1.2.840.113549.1.9.5"));
       if (signingTimeAttr != null) {
         try {
-          ASN1UTCTime oDate = ASN1UTCTime.getInstance(signingTimeAttr.getAttrValues().getObjectAt(1));
-          date = oDate.getDate();
+          ASN1Set set = signingTimeAttr.getAttrValues();
+          if (set.size() > 0) {
+            ASN1UTCTime oDate = (ASN1UTCTime) set.getObjectAt(0);
+            if (oDate != null) {
+              date = oDate.getDate();
+            }
+          }
         } catch (ParseException e) {
           date = null;
         }
       }
       AttributeTable table = signer.getUnsignedAttributes();
       // find TS signature
-      Attribute attribute = table.get(new ASN1ObjectIdentifier("1.2.840.113549.1.9.16.2.14"));
-      if (attribute != null) {
-        P7Verifier tsaVerifier = new P7Verifier(attribute.getAttrValues().getEncoded());
-        List<SignatureVerification> sv = tsaVerifier.verify();
-        signedDate = tsaVerifier.signedDate;
+      if (table != null) {
+        Attribute attribute = table.get(new ASN1ObjectIdentifier("1.2.840.113549.1.9.16.2.14"));
+        if (attribute != null) {
+          P7Verifier tsaVerifier = new P7Verifier(attribute.getAttrValues().getEncoded());
+          List<SignatureVerification> sv = tsaVerifier.verify();
+          signedDate = tsaVerifier.signedDate;
+        }
       }
 
       SignatureVerification v = new SignatureVerification(cert, verified, trusted, date);
